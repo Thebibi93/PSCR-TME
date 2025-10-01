@@ -7,7 +7,7 @@ Instructions : copiez vos réponses dans ce fichier (sous la question correspond
 Réponse (collez une trace ici) :
 
 ```
-trace
+566193 words
 ```
 
 
@@ -19,13 +19,13 @@ trace
 
 Réponse :
 
-Runtime debug avec trace :
+Runtime debug avec trace : 3397ms
 
-Runtime debug sans trace :
+Runtime debug sans trace : 2801 ms
 
-Runtime release avec trace :
+Runtime release avec trace : 333ms
 
-Runtime release sans trace :
+Runtime release sans trace : 293ms
 
 (mesures nfs vs tmp si à la ppti)
 
@@ -36,14 +36,16 @@ Exécutez le programme sur le fichier WarAndPeace.txt fourni. Combien y a-t-il d
 Réponse (collez une trace ici) :
 
 ```
-trace
+Found 20333 unique words.
+Total runtime (wall clock) : 14006 ms (Debug) vs 2637 (Release)
+
 ```
 
 4) Modifiez le programme pour introduire le mode "freq" qui calcule le nombre d'occurrences de chaque mot (fréquence). 
 Pour cela, on adaptera le code précédent pour utiliser un vecteur qui stocke des `pair<string,int>` au lieu de stocker juste des string. 
 Afficher le nombre d'occurrences des mots "war", "peace" et "toto".
 
-Réponse :
+Réponse : toto n'apparaît pas, war 298, peace 114
 
 
 5) Trier ce vecteur de paires par nombre d'occurrences décroissantes à l'aide de `std::sort` puis afficher les dix mots les plus fréquents. 
@@ -74,12 +76,22 @@ int main_sort () {
 ```
 
 Réponse :
-
+Finished parsing.
+Nombre occurence de the : 34562
+Nombre occurence de and : 22148
+Nombre occurence de to : 16709
+Nombre occurence de of : 14990
+Nombre occurence de a : 10513
+Nombre occurence de he : 9809
+Nombre occurence de in : 8800
+Nombre occurence de his : 7965
+Nombre occurence de that : 7806
+Nombre occurence de was : 7327
 
 6) Quelle est la complexité de ce code en temps et mémoire ? Donnez une trace avec temps d'exécution en mode release.
 
 
-Réponse :
+Réponse : 2050 ms on parcourt tout le tableau pr verifier si il existe deja c'est O(n^2) en temps et O(n) en memoire.
 
 
 
