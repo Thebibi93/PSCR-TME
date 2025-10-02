@@ -1,10 +1,12 @@
 #include "HashMap.h"
 #include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <regex>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -27,7 +29,7 @@ int main(int argc, char **argv) {
   // project-root/WarAndPeace.txt Optional second argument is mode (e.g. "count"
   // or "unique").
   string filename = "../WarAndPeace.txt";
-  string mode = "freq";
+  string mode = "freqstd";
   if (argc > 1)
     filename = argv[1];
   if (argc > 2)
@@ -128,8 +130,49 @@ int main(int argc, char **argv) {
       cout << "Nombre occurence de " << seen[i].first << " : " << seen[i].second
            << endl;
     }
-  } else if (mode == "hash") {
-    HashMap<pair<std::string, int>, int> count;
+  } else if (mode == "freqhash") {
+    HashMap<std::string, int> count(1024);
+    while (input >> word) {
+      word = cleanWord(word);
+      int *value = count.get(word);
+      if (value) {
+        count.put(word, *value + 1);
+      } else {
+        count.put(word, 1);
+      }
+    }
+    input.close();
+    cout << "Finished parsing." << endl;
+
+    // Récupérer tous les couples (mot, nb) et trier pour afficher les plus
+    // fréquents
+    auto pairs = count.toKeyValuePairs();
+    std::sort(pairs.begin(), pairs.end(),
+              [](const std::pair<std::string, int> &a,
+                 const std::pair<std::string, int> &b) {
+                return a.second > b.second;
+              });
+    for (std::size_t i = 0; i < 10 && i < pairs.size(); ++i) {
+      cout << "Nombre occurence de " << pairs[i].first << " : "
+           << pairs[i].second << endl;
+    }
+  } else if (mode == "freqstd") {
+    std::unordered_map<std::string, int> map;
+    while (input >> word) {
+      word = cleanWord(word);
+      map[word]++;
+    }
+    input.close();
+    cout << "Finished parsing." << endl;
+
+    std::vector<std::pair<std::string, int>> pairs(map.begin(), map.end());
+    std::sort(pairs.begin(), pairs.end(),
+        [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
+            return a.second > b.second;
+        });
+    for (std::size_t i = 0; i < 10 && i < pairs.size(); ++i) {
+        cout << "Nombre occurence de " << pairs[i].first << " : " << pairs[i].second << endl;
+    }
   }
 
   else {

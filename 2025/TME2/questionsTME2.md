@@ -116,10 +116,25 @@ Réponse : Dans le fichier HashMap.h
 
 Réponse : tracer les temps
 
+Pas de différence très significative entre 100, 1024 et 10000. Environ 360 ms.
+
 9) On souhaite comme dans la version précédente afficher les 10 mots les plus fréquents.
 Ajoutez dans la table de hash une fonction `std::vector<std::pair<K,V>> toKeyValuePairs() const` qui convertit les entrées de la table en un vecteur de paires. Pour celà on parcourt chaque liste de chaque bucket. Contrôlez les résultats par rapport à la version "freq" simple.
 
 Réponse : une trace
+
+Finished parsing.
+Nombre occurence de the : 34562
+Nombre occurence de and : 22148
+Nombre occurence de to : 16709
+Nombre occurence de of : 14990
+Nombre occurence de a : 10513
+Nombre occurence de he : 9809
+Nombre occurence de in : 8800
+Nombre occurence de his : 7965
+Nombre occurence de that : 7806
+Nombre occurence de was : 7327
+Total runtime (wall clock) : 363 ms
 
 10) Ecrire un nouveau mode "freqstd" qui s'appuie sur la classe du standard `std::unordered_map` pour faire la même chose que "freqhash". Pour la partie extraction des entrées vers un vecteur pour les trier, on peut simplement itérer la table (même s'il y a d'autres méthodes comme `std::copy`)
 
@@ -132,9 +147,10 @@ for (const pair<string,int> & entry : map) {
 
 Remesurer les performances avec cette version.
 
-Réponse :
+Réponse : Total runtime (wall clock) : 346 ms
 
 11) Conclure sur la qualité de notre structure de données maison.
+Ca passe même si c'est moins bon que la lib standard probablement notre table se retrouve surchargée et les listes deviennent longues.
 
 12) BONUS: Si la taille actuelle est supérieure ou égale à 80\% du nombre de buckets, la table est considérée surchargée :
  la plupart des accès vont nécessiter d'itérer des listes. On souhaite dans ce cas doubler la taille d'allocation (nombre de buckets).  Ecrivez une fonction membre \texttt{void grow()} qui agrandit (double le nombre de buckets) d'une table contenant déjà des éléments.  Quelle est la complexité de cette réindexation ?

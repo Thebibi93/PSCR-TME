@@ -10,7 +10,7 @@ public:
   // Entry stores a const key and a mutable value
   struct Entry {
     K key_;
-    const V value_;
+    V value_;
     Entry(K key, V value) : key_(key), value_(value) {}
   };
 
@@ -18,12 +18,7 @@ public:
   using Table = std::vector<Bucket>;
 
   // Construct with a number of buckets (must be >= 1)
-  HashMap(std::size_t nbuckets = 1024) {
-    buckets_ = new Table;
-    for (size_t i = 0; i < nbuckets; ++i) {
-      buckets_.push_back(new Bucket);
-    }
-  }
+  HashMap(std::size_t nbuckets = 1024) { buckets_ = Table(nbuckets); }
 
   // Return pointer to value associated with key, or nullptr if not found.
   // Only iterate the appropriate bucket.
@@ -61,11 +56,11 @@ public:
 
   // Convert table contents to a vector of key/value pairs.
   std::vector<std::pair<K, V>> toKeyValuePairs() const {
-    std::vector<std::pair<K,V>> acc;
-    for (const Bucket& b : buckets_) {
-        for (const Entry& e : b) {
-            acc.push_back({e.key_, e.value_});
-        }
+    std::vector<std::pair<K, V>> acc;
+    for (const Bucket &b : buckets_) {
+      for (const Entry &e : b) {
+        acc.push_back({e.key_, e.value_});
+      }
     }
     return acc;
   }
@@ -79,11 +74,11 @@ private:
 
   void resize(size_t n) {
     Table new_buckets(n);
-    for (const Bucket& bucket : buckets_) {
-        for (const Entry& entry : bucket) {
-            std::size_t new_index = std::hash<K>{}(entry.key_) % n;
-            new_buckets[new_index].push_front(entry);
-        }
+    for (const Bucket &bucket : buckets_) {
+      for (const Entry &entry : bucket) {
+        std::size_t new_index = std::hash<K>{}(entry.key_) % n;
+        new_buckets[new_index].push_front(entry);
+      }
     }
     buckets_ = std::move(new_buckets);
   }
